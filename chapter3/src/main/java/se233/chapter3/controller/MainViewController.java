@@ -2,17 +2,17 @@ package se233.chapter3.controller;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import javafx.util.Callback;
 import se233.chapter3.Launcher;
 import se233.chapter3.model.FileFreq;
 import se233.chapter3.model.PDFdocument;
@@ -24,15 +24,29 @@ import java.util.concurrent.*;
 
 public class MainViewController {
     @FXML
-    private ListView<String> inputListView;
+    private ListView<File> inputListView;
     @FXML
     private Button startButton;
     @FXML
     private ListView<String> listView;
+    @FXML
+    private MenuItem menuCloseBtn;
     private LinkedHashMap<String, ArrayList<FileFreq>> uniqueSets;
+
 
     @FXML
     public void initialize() {
+        inputListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                if (empty || file == null) {
+                    setText(null);
+                } else {
+                    setText(file.getName());
+                }
+            }
+        });
         inputListView.setOnDragOver(event -> {
             Dragboard dragboard = event.getDragboard();
 
@@ -52,22 +66,21 @@ public class MainViewController {
             boolean success = false;
             if (dragboard.hasFiles()) {
                 success = true;
-                String filepath;
                 int total_files = dragboard.getFiles().size();
 
                 for (int i = 0; i < total_files; i++) {
                     File file = dragboard.getFiles().get(i);
-                    filepath = file.getAbsolutePath();
-                    inputListView.getItems().add(filepath);
+                    inputListView.getItems().add(file);
                 }
             }
             event.setDropCompleted(success);
             event.consume();
         });
 
+
         startButton.setOnAction(event -> {
             Parent bgRoot = Launcher.stage.getScene().getRoot();
-            Task<Void> processTask = new Task<Void>() {
+            Task<Void> processTask = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
                     ProgressIndicator pi = new ProgressIndicator();
@@ -77,12 +90,12 @@ public class MainViewController {
 
                     try (ExecutorService executor = Executors.newFixedThreadPool(4)) {
                         final ExecutorCompletionService<Map<String, FileFreq>> completionService = new ExecutorCompletionService<>(executor);
-                        List<String> inputListViewItems = inputListView.getItems();
+                        List<File> inputListViewItems = inputListView.getItems();
                         int total_files = inputListViewItems.size();
                         Map<String, FileFreq>[] wordMap = new Map[total_files];
-                        for (String inputListViewItem : inputListViewItems) {
+                        for (File inputListViewItem : inputListViewItems) {
                             try {
-                                PDFdocument p = new PDFdocument(inputListViewItem);
+                                PDFdocument p = new PDFdocument(inputListViewItem.getAbsolutePath());
                                 completionService.submit(new WordMapPageTask(p));
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -93,7 +106,6 @@ public class MainViewController {
                             try {
                                 Future<Map<String, FileFreq>> future = completionService.take();
                                 wordMap[i] = future.get();
-                                System.out.println("Finished " + i + " of " + total_files);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -139,10 +151,17 @@ public class MainViewController {
                 popupListView.getScene().getWindow().hide();
             });
             Popup popup = new Popup();
-            popup.getContent().add(popupListView);
+            TextField textField = new TextField();
+            textField.setPrefHeight(0);
+            textField.setPrefWidth(0);
+            textField.setPadding(new Insets(0));
+            popup.getContent().addAll(popupListView, textField);
             popup.setHeight(popupListView.getItems().size() * 35);
             popup.show(Launcher.stage);
+            textField.requestFocus();
         });
+
+        menuCloseBtn.setOnAction(event -> Launcher.stage.close());
     }
 
 

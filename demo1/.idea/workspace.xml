@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60b83a48-802d-4d00-90e1-9cd5f26e5173" name="Changes" comment="" />
+    <list default="true" id="60b83a48-802d-4d00-90e1-9cd5f26e5173" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../chapter3/src/main/java/se233/chapter3/controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chapter3/src/main/java/se233/chapter3/controller/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chapter3/src/main/java/se233/chapter3/controller/WordMapPageTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chapter3/src/main/java/se233/chapter3/controller/WordMapPageTask.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="2T4Ql3Tpw7EmCpxYtDKcAFfAmSm" />
   <component name="ProjectViewState">
@@ -20,6 +26,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -32,6 +39,7 @@
       <option name="presentableId" value="Default" />
       <updated>1690300021858</updated>
       <workItem from="1690300023429" duration="61000" />
+      <workItem from="1690791600089" duration="3000" />
     </task>
     <servers />
   </component>
