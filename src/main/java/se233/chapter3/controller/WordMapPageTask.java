@@ -27,7 +27,6 @@ public class WordMapPageTask implements Callable<Map<String, FileFreq>> {
         Pattern pattern = Pattern.compile(" ");
         String s = stripper.getText(doc.getDocument());
         doc.getDocument().close();
-        System.out.println(Thread.currentThread().getName());
 
         return pattern.splitAsStream(s).map(word -> word.replaceAll("[^a-zA-Z]", "").toLowerCase().trim())
                 .filter(word -> word.length() > 3)
