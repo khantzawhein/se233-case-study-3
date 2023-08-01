@@ -8,5 +8,6 @@ module se233.chapter3 {
     opens se233.chapter3.model to javafx.fxml;
     exports se233.chapter3;
     exports se233.chapter3.controller;
+    exports se233.chapter3.helpers;
     exports se233.chapter3.model;
 }

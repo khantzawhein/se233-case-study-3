@@ -28,11 +28,28 @@ public class WordMapPageTask implements Callable<Map<String, FileFreq>> {
         String s = stripper.getText(doc.getDocument());
         doc.getDocument().close();
 
-        return pattern.splitAsStream(s).map(word -> word.replaceAll("[^a-zA-Z]", "").toLowerCase().trim())
+        /*
+        [
+            {"apple": 1},
+            {"apple": 3},
+        ]
+        {
+            "apple": 4,
+            "banana": 1,
+        }
+        ( - set
+            {"apple": FileFreq{}} - entry ,
+            {"banana": 1} - entry
+        )
+         */
+
+        return pattern.splitAsStream(s)
+                .map(word -> word.replaceAll("[^a-zA-Z]", "").toLowerCase().trim())
                 .filter(word -> word.length() > 3)
                 .map(word -> new AbstractMap.SimpleEntry<>(word, 1))
                 .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue, Integer::sum))
-                .entrySet().stream()
+                .entrySet()
+                .stream()
                 .filter(e -> e.getValue() > 1)
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> new FileFreq(doc.getName(), doc.getFilePath(), e.getValue())));
 

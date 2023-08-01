@@ -9,11 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.util.Callback;
 import se233.chapter3.Launcher;
+import se233.chapter3.helpers.WordMapList;
 import se233.chapter3.model.FileFreq;
 import se233.chapter3.model.PDFdocument;
 
@@ -31,8 +33,9 @@ public class MainViewController {
     private ListView<String> listView;
     @FXML
     private MenuItem menuCloseBtn;
-    private LinkedHashMap<String, ArrayList<FileFreq>> uniqueSets;
-
+    @FXML
+    private AnchorPane anchorPane;
+    private LinkedHashMap<String, WordMapList> uniqueSets;
 
     @FXML
     public void initialize() {
@@ -112,7 +115,7 @@ public class MainViewController {
                         }
                         try {
                             WordMapMergeTask merger = new WordMapMergeTask(wordMap);
-                            Future<LinkedHashMap<String, ArrayList<FileFreq>>> future = executor.submit(merger);
+                            Future<LinkedHashMap<String, WordMapList>> future = executor.submit(merger);
                             uniqueSets = future.get();
                             listView.getItems().clear();
                             listView.getItems().addAll(uniqueSets.keySet());

@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-public class WordMapMergeTask implements Callable<LinkedHashMap<String, ArrayList<FileFreq>>> {
+public class WordMapMergeTask implements Callable<LinkedHashMap<String, WordMapList>> {
     private Map<String, FileFreq>[] wordmap;
 
     public WordMapMergeTask(Map<String, FileFreq>[] wordmap) {
@@ -16,8 +16,41 @@ public class WordMapMergeTask implements Callable<LinkedHashMap<String, ArrayLis
     }
 
     @Override
-    public LinkedHashMap<String, ArrayList<FileFreq>> call() {
+    public LinkedHashMap<String, WordMapList> call() {
         List<Map<String, FileFreq>> wordMapList = new ArrayList<>(Arrays.asList(wordmap));
+
+        /*
+        [
+            {
+                "apple": FileFreq{},
+                "banana": FileFreq{},
+            },
+            {
+                "apple": FileFreq{},
+                "banana": FileFreq{},
+            },
+         ]
+
+         [
+            [{}, {}, {}],
+            {banana: FileFreq{}},
+         ]
+
+         [
+            {apple: 1},
+            {apple: 2},
+            {orange: 2},
+            {banana: 3},
+            {banana: 4},
+         ]
+
+         {
+            {apple: [FileFreq{}, FileFreq{}]},
+            {orange: [FileFreq{}, FileFreq{}]
+            {banana: [FileFreq{}, FileFreq{}]
+         }
+
+         */
 
         return wordMapList.stream()
                 .flatMap(m -> m.entrySet().stream())
