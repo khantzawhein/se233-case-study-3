@@ -41,6 +41,10 @@ public class WordMapPageTask implements Callable<Map<String, FileFreq>> {
             {"apple": FileFreq{}} - entry ,
             {"banana": 1} - entry
         )
+
+        {"orange": 1}
+
+        [{"orange": 1}, {"banana": 1}, {"orange": 1}]
          */
 
         return pattern.splitAsStream(s)

@@ -49,6 +49,28 @@ public class WordMapMergeTask implements Callable<LinkedHashMap<String, WordMapL
             {orange: [FileFreq{}, FileFreq{}]
             {banana: [FileFreq{}, FileFreq{}]
          }
+         [
+
+            {apple: FileFreq{}},
+            {orange: FileFreq{}},
+            {banana: FileFreq{}},
+            {apple: FileFreq{}},
+            {orange: FileFreq{}},
+            {banana: FileFreq{}},
+
+
+
+         [
+            {apple: [FileFreq{}, FileFreq{}]},
+            {orange: [FileFreq{}, FileFreq{}]
+            {banana: [FileFreq{}, FileFreq{}]
+         ]
+
+         {
+            apple: [FileFreq{}, FileFreq{}],
+            orange: [FileFreq{}, FileFreq{}],
+            banana: [FileFreq{}, FileFreq{}],
+         }
 
          */
 

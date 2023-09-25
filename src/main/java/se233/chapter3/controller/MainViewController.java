@@ -1,11 +1,13 @@
 package se233.chapter3.controller;
 
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
@@ -14,6 +16,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import se233.chapter3.Launcher;
 import se233.chapter3.helpers.WordMapList;
 import se233.chapter3.model.FileFreq;
@@ -36,6 +40,7 @@ public class MainViewController {
     @FXML
     private AnchorPane anchorPane;
     private LinkedHashMap<String, WordMapList> uniqueSets;
+    Logger logger = LogManager.getLogger(MainViewController.class);
 
     @FXML
     public void initialize() {
@@ -50,6 +55,7 @@ public class MainViewController {
                 }
             }
         });
+
         inputListView.setOnDragOver(event -> {
             Dragboard dragboard = event.getDragboard();
 
@@ -83,6 +89,7 @@ public class MainViewController {
 
         startButton.setOnAction(event -> {
             Parent bgRoot = Launcher.stage.getScene().getRoot();
+            inputListView.getItems().stream().forEach(file -> logger.info(file.getName()));
             Task<Void> processTask = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
